@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    </p>
+    <!-- Output of Js Function -->
+    <p id="demo"></p>
+
+    <script>
+        //Variable input = records
+        var records = ["Enter uid1234 Muzi", "Enter uid4567 Prodo", "Leave uid1234",
+            "Enter uid1234 Prodo", "Change uid4567 Ryan"
+        ];
+        document.getElementById("demo").innerHTML = myFunction(records);
+
+        function myFunction(records) {
+            // function to track name change over all history
+            function trackChange(i, property) {
+                for (j = 0; j <= i; j++) {
+                    if (property[j][2] == property[i][2]) {
+                        property[j][3] = property[i][3];
+                    }
+                }
+                return property;
+            }
+            // n = check length of input; chg=check total change name
+            var n = records.length;
+            var chg = 0;
+            var property = new Array(n);
+            // loop through all records, split each record into array, turn it into object 'person'
+            for (i = 0; i < records.length; i++) {
+                var str = records[i];
+                var res = str.split(" ");
+                var person = {
+                    index: i,
+                    status: res[0],
+                    uid: res[1],
+                    name: res[2],
+                    textStatus: ""
+                };
+
+                //track all record happened using var property
+                property[i] = Object.values(person);
+                //input enter, leave, change
+                if (property[i][1] == "Enter") {
+                    property[i][4] = " came in"
+                    trackChange(i, property);
+                } else if (property[i][1] == "Leave") {
+                    property[i][4] = " has left"
+                    for (j = 0; j <= i; j++) {
+                        if (property[j][2] == property[i][2]) {
+                            property[i][3] = property[j][3]; {
+                                break;
+                            }
+                        }
+                    }
+                } else if (property[i][1] == "Change") {
+                    property[i][4] = ""
+                    trackChange(i, property);
+                    chg++;
+                }
+
+                //compile changes into answer. total output array=n.records-n.change
+                var k = 0;
+                var answer = new Array(n - chg);
+                for (j = 0; j <= i; j++) {
+                    if (property[j][1] != "Change") {
+                        answer[k] = property[j][3] + property[j][4];
+                        k++;
+                    }
+                }
+            }
+            return answer;
+        }
+    </script>
+
+</body>
+
+</html>

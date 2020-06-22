@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    </p>
+
+    <p id="demo"></p>
+
+    <script>
+        // inputs
+        var records = [
+            ["100", "ryan", "music", "2"],
+            ["200", "apeach", "math", "2"],
+            ["300", "tube", "computer", "3"],
+            ['400', "con", "computer", "4"],
+            ['500', "muzi", "music", "3"],
+            ['600', "apeach", "music", "2"],
+        ]
+        document.getElementById("demo").innerHTML = myFunction(records)
+
+        function createNewRecord(dupCols, records) {
+            // number of new cols
+            var fac = 0
+            for (i = 1; i < dupCols.length; i++) {
+                fac += i
+            }
+            //new 2 dimensional variable
+            var newRecords = new Array(records.length)
+            for (i = 0; i < records.length; i++) {
+                newRecords[i] = new Array(fac)
+            }
+            // new array
+            k = 1
+            l = 0
+            for (j = 0; j < fac; j++) {
+                for (i = 0; i < records.length; i++) {
+                    newRecords[i][j] = records[i][dupCols[l]] + records[i][dupCols[k]]
+                }
+                k++
+                if (k == dupCols.length) {
+                    l++
+                    k = l + 1
+                }
+            }
+            return newRecords
+        }
+
+
+        function myFunction(records) {
+            var cKeys = 0
+            // function to find duplicate in a column
+            function checkDuplicate(records) {
+                var dup = []
+                var m = 0
+                nRows = records.length;
+                nCols = records[1].length;
+                // find duplicate
+                for (a = 0; a < nCols; a++) {
+                    var duplicate = false;
+                    for (b = 0; b < nRows; b++) {
+                        for (c = 0; c < nCols; c++) {
+                            for (d = b + 1; d < nRows; d++) {
+                                if (records[d][c] == records[b][a]) {
+                                    duplicate = true;
+                                }
+                            }
+                        }
+                    }
+                    if (duplicate) {
+                        dup[m] = a
+                        m++
+                    }
+                }
+                return dup;
+            }
+
+            dupCols = checkDuplicate(records) //find duplicat column
+            cKeys = cKeys + (nCols - dupCols.length) //get candidate keys
+            nCols = dupCols.length
+
+            newRec = createNewRecord(dupCols, records)
+            dupCols = checkDuplicate(newRec)
+            cKeys = cKeys + (nCols - dupCols.length)
+            return cKeys
+        }
+    </script>
+
+</body>
+
+</html>

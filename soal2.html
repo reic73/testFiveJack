@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    </p>
+
+    <p id="demo"></p>
+
+    <script>
+        var nStage = 4;
+        var users = [4, 4, 4, 4, 4];
+        document.getElementById("demo").innerHTML = myFunction(nStage, users);
+        // input number of stage and users
+        function myFunction(nStage, users) {
+            var rate = new Array(nStage);
+            var answer = new Array(nStage);
+            for (n = 0; n < nStage; n++) {
+                // find num(a)/denum(b)
+                var a = 0;
+                var b = 0;
+                for (i = 0; i <= users.length; i++) {
+                    if (users[i] >= n + 1) {
+                        b = b + 1;
+                    }
+                    if (users[i] == n + 1) {
+                        a = a + 1;
+                    }
+                }
+
+                // check if num/denum return NaN value
+                if (isNaN(a / b)) {
+                    temp_rate = 0
+                } else {
+                    temp_rate = a / b
+                }
+                // store into rate array[index,value]
+                rate[n] = [n + 1, temp_rate];
+            }
+            // sort by value and index
+            rate.sort(function (a, b) {
+                return a[2] - b[2] || b[1] - a[1];
+            });
+            // compile rate variable into answer
+            for (i = 0; i < nStage; i++) {
+                answer[i] = rate[i][0];
+            }
+            return answer;
+        }
+    </script>
+
+</body>
+
+</html>
